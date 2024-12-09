@@ -3,7 +3,7 @@ from flask import Flask # <-Este nos permite crear el servidor
 from flask_restful import Api # Este nos permite crear la funcionalidad de la api
 from .routes import APIRoutes
 from .config import Config
-from .extensions import db
+from .extensions import db, jwt
 # Creamos una funcion que configure el servidor
 
 def configurar_app():
@@ -14,6 +14,8 @@ def configurar_app():
     app.config.from_object(Config)
     
     db.init_app(app)
+
+    jwt.init_app(app)
     
     with app.app_context():
         db.create_all()

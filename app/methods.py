@@ -1,5 +1,7 @@
 from .models.usuarios import User
+from flask_jwt_extended import create_access_token
 
+from datetime import timedelta
 
 def user_register(nombre, email, telefono, password):
     
@@ -32,10 +34,18 @@ def user_login(correo, password):
     if usuario_existente is None:
         return{'Status': 'El correo no está registrado'}, 500
     #Verificamos que la contraseña coincida
-    if usuario_existente.verificar_password(password=password):
-        return {'Status': 'Sesión iniciada'}, 200
+    elif usuario_existente.verificar_password(password=password):
+        caducidad = timedelta(minutes=2)
+
+        token_acceso = create_access_token(identity=usuario_existente.nombre, expires_delta=caducidad)
+
+        return {
+            'Status': 'Sesión iniciada',
+            'Token' : token_acceso
+            }, 200
     
     else:
         return {'Status': 'La contraseña no coincide'}, 500
+        
 
 
