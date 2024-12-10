@@ -35,7 +35,7 @@ def user_login(correo, password):
         return{'Status': 'El correo no está registrado'}, 500
     #Verificamos que la contraseña coincida
     elif usuario_existente.verificar_password(password=password):
-        caducidad = timedelta(minutes=2)
+        caducidad = timedelta(minutes=10)
 
         token_acceso = create_access_token(identity=usuario_existente.nombre, expires_delta=caducidad)
 

@@ -17,6 +17,7 @@ class User(db.Model):
 
         return check_password_hash(self.password, password)
     
+    
 
     #Método de la Clase User
     def save(self):
